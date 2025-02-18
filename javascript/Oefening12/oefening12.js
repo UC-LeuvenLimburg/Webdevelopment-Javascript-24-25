@@ -29,7 +29,8 @@ function toonTafels(getal, tafels){
 
 function toonSom1(tafels){
 	let som = 0;
-	for (let i=0; i<tafels.length; i++) {
+	//for (let i=0; i<tafels.length; i++) {
+	for (let i in tafels) {
 		som += tafels[i];		
 	} 
 	document.getElementById("som1").innerHTML = "Som1: " + som;
@@ -37,14 +38,15 @@ function toonSom1(tafels){
 
 function toonSom2(tafels){
 	let som = 0;
-	tafels.forEach(function(tafel){
+	//tafels.forEach(function(tafel){
+	tafels.forEach(tafel => {
 		som += tafel;
 	});
 	document.getElementById("som2").innerHTML = "Som2: " + som;
 }
 
 function toonSom3(tafels){
-	//var som = tafels.reduce((a,b)=>a+b,0); werkt niet in IE
+	//let som = tafels.reduce((a,b)=>a+b,0);
 	let som = tafels.reduce(function(a,b){return a+b;}, 0);
 	document.getElementById("som3").innerHTML = "Som3: " + som;
 }
