@@ -10,6 +10,8 @@ var Pizzas = {
     }
 };
 
+var ingredients = ["tomatensaus", "mozzarella", "hesp", "ananas"];
+
 var winkelmandje = {};
 
 //pizzas zou ook een array kunnen zijn
@@ -33,6 +35,7 @@ function addItemToSelect(selectId, item) {
     let option = document.createElement("option");
     option.innerHTML = item;
     select.add(option);
+    select.size = select.options.length;
 }
 
 
@@ -47,6 +50,10 @@ function addList() {
     //     addItemToSelect("pizzaLijst", pizza.name);
     //     //addItemToSelect("pizzaLijst", pizza["name"]);
     // }
+
+    for (let ingredient of ingredients) {
+        addItemToSelect("ingredientenLijst", ingredient);
+    }
 }
 
 addList();
@@ -106,5 +113,93 @@ document.getElementById("orderPizza").addEventListener("click", function () {
         // }
 
         console.log(winkelmandje);
+        toonWinkelmandje();
+    }
+});
+function toonWinkelmandje(){
+    let winkelmandjeDiv = document.getElementById("winkelmandje");
+    
+    while(winkelmandjeDiv.children.length > 2){
+        winkelmandjeDiv.removeChild(winkelmandjeDiv.children[1]);
+    }
+    let totaal = 0;
+    for (let item in winkelmandje) {
+        // bij array
+        // for (let item of winkelmandje) {
+        let row = document.createElement("tr");
+        let cellAmount = document.createElement("td");
+        let cellName = document.createElement("td");
+        let cellPrice = document.createElement("td");
+        cellAmount.innerHTML = winkelmandje[item].aantal;
+        cellName.innerHTML = item;
+        cellPrice.innerHTML = winkelmandje[item].prijs + "€";
+        // bij array
+        // cellAmount.innerHTML = item.aantal;
+        // cellName.innerHTML = item.name;
+        // cellPrice.innerHTML = item.prijs + "€";
+        row.appendChild(cellAmount);
+        row.appendChild(cellName);
+        row.appendChild(cellPrice);
+        // row.innerHTML = "<td>" + winkelmandje[item].aantal + "</td><td>" + item + "</td><td>" + winkelmandje[item].prijs + "€</td>";
+        winkelmandjeDiv.insertBefore(row, winkelmandjeDiv.lastElementChild);
+    
+        totaal += winkelmandje[item].prijs
+        // bij array
+        // totaal += item.prijs;
+    }
+    document.getElementById("totaal").innerHTML = totaal + "€";
+}
+
+document.getElementById("addPizza").addEventListener("click", function () {
+    let pizzaName = document.getElementById("pizzaName").value;
+    let pizzaPrice = +document.getElementById("pizzaPrijs").value;
+    //let pizzaIngredients = document.getElementById("ingredientenLijst").value;
+    
+    if (pizzaName.length < 1) {
+        alert("Gelieve een pizzanaam in te vullen");
+    } else {
+        for (let pizza in Pizzas) {
+            if (pizza === pizzaName) {
+                alert("Pizza bestaat al");
+                return;
+            }
+        }
+        if (isNaN(pizzaPrice) || pizzaPrice <= 0) {
+            alert("Gelieve een positief prijs in te vullen");
+        } else {
+            let pizzaIngredients = [];
+            let ingredienten = document.getElementById("ingredientenLijst").options;
+            for (let i=0; i<ingredienten.length; i++) {
+                if (ingredienten[i].selected) {
+                    pizzaIngredients.push(ingredienten[i].value);
+                }
+            }
+            console.log(pizzaIngredients);
+            if (pizzaIngredients.length < 1) {
+                alert("Gelieve minstens 1 ingredient te selecteren");
+                return;
+            }
+            Pizzas[pizzaName] = { price: pizzaPrice, ingredients: pizzaIngredients };
+            addItemToSelect("pizzaLijst", pizzaName);
+        }
+           
+    }
+});
+
+
+document.getElementById("addIngredient").addEventListener("click", function () {
+
+    let ingredientName = document.getElementById("ingredient").value;
+    if (ingredientName.length < 1) {
+        alert("Gelieve een ingredientnaam in te vullen");
+    } else {
+        for (let ingredient of ingredients) {
+            if (ingredient === ingredientName) {
+                alert("Ingredient bestaat al");
+                return;
+            }
+        }
+        ingredients.push(ingredientName);
+        addItemToSelect("ingredientenLijst", ingredientName);
     }
 });
