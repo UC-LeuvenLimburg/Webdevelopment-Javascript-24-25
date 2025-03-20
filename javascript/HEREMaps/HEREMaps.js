@@ -38,7 +38,7 @@ var markerPosities = [
     { title: "UCLL - Campus Diepenbeek", position: { lat: 50.92906, lng: 5.39559 } },
     { title: "UCLL - Campus Proximus", position: { lat: 50.84625, lng: 4.72748 } }];
 
-for (var markerPositie of markerPosities) {
+for (markerPositie of markerPosities) {
     // Create a marker using the previously instantiated icon:
     var marker = new H.map.Marker(markerPositie.position, { icon: icon, data: markerPositie.title});
     //marker.setData(markerPositie.title);
