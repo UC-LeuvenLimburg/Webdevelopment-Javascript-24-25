@@ -46,6 +46,22 @@ for (let campus of ucllCampi) {
         .then((data) => {
             console.log(data.items[0].position);
             var marker = new H.map.Marker(data.items[0].position, { icon: icon, data: campus.naam });
+            
+            marker.addEventListener('tap', function (evt) {
+                //         // Log 'tap' and 'mouse' events:
+                //         console.log(evt.type, evt.currentPointer.type);
+                //         console.log(markerPositie.position, markerPositie.title);
+                //         console.log(evt.target.getGeometry());
+                //         console.log(evt.target.getData());
+                
+                // Create an info bubble at the Spire of Dublin location with the HTML content
+                const infoBubble = new H.ui.InfoBubble(evt.target.getGeometry(), {content:evt.target.getData()});
+                
+                // Add the info bubble to the UI
+                ui.addBubble(infoBubble);
+                     });
+                
+            
             group.addObject(marker);
 
             // Zoom the map to fit the rectangle:
@@ -86,7 +102,7 @@ for (let campus of ucllCampi) {
 // }
 
 // Zoom the map to fit the rectangle:
-map.getViewModel().setLookAtData({ bounds: group.getBoundingBox() });
+//map.getViewModel().setLookAtData({ bounds: group.getBoundingBox() });
 
 
 
