@@ -85,7 +85,7 @@ map.addObject(group);
 
 function getLocationData(campus) {
     return new Promise((resolve, reject) => {
-        const url = "https://geocode.search.hereapi.com/v1/geocode?q=" + campus.adres + "&apiKey=lSwjTR9RzFA5C2M-gvJ099Nyq9Hejy_HFvyoR_4GDNo";
+        const url = "https://geocode.search.hereapi.com/v1/geocode?q=" + campus.adres + "&apiKey=";
         fetch(url)
             .then((response) => {
                 if (!response.ok) {
